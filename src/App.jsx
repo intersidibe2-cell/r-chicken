@@ -16,6 +16,12 @@ import AdminQRCode from './pages/admin/QRCode';
 import AdminAccounting from './pages/admin/Accounting';
 import AdminPromotions from './pages/admin/Promotions';
 import AdminSettings from './pages/admin/Settings';
+import AdminKitchen from './pages/admin/Kitchen';
+import AdminEmployees from './pages/admin/Employees';
+import AdminInventory from './pages/admin/Inventory';
+import AdminLoyalty from './pages/admin/Loyalty';
+import AdminDeliveryZones from './pages/admin/DeliveryZones';
+import AdminClients from './pages/admin/Clients';
 import MobilePreview from './pages/MobilePreview';
 
 export default function App() {
@@ -104,6 +110,12 @@ export default function App() {
       <Route path="/admin/accounting" element={<AdminAccounting />} />
       <Route path="/admin/promotions" element={<AdminPromotions />} />
       <Route path="/admin/settings" element={<AdminSettings />} />
+      <Route path="/admin/kitchen" element={<AdminKitchen />} />
+      <Route path="/admin/employees" element={<AdminEmployees />} />
+      <Route path="/admin/inventory" element={<AdminInventory />} />
+      <Route path="/admin/loyalty" element={<AdminLoyalty />} />
+      <Route path="/admin/delivery" element={<AdminDeliveryZones />} />
+      <Route path="/admin/clients" element={<AdminClients />} />
     </Routes>
   );
 }

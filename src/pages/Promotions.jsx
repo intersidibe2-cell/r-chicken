@@ -16,21 +16,6 @@ export default function Promotions() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl p-6 text-white">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                <Gift className="w-6 h-6" />
-              </div>
-              <h3 className="font-black text-xl">50 Plats Gratuits</h3>
-            </div>
-            <p className="text-white/80 mb-4">
-              Goûtez nos nouveaux plats GRATUITEMENT ! Places limitées.
-            </p>
-            <button className="bg-white text-purple-600 px-6 py-3 rounded-xl font-black hover:bg-yellow-400 hover:text-black transition-colors">
-              RÉSERVER MON TICKET
-            </button>
-          </div>
-
           <div className="bg-gradient-to-br from-[#E4002B] to-[#C4001F] rounded-2xl p-6 text-white">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">

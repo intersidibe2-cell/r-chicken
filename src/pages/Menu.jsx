@@ -3,11 +3,13 @@ import { ShoppingBag, Star, Heart } from 'lucide-react';
 import { menuData } from '../data/menu';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../components/Toast';
+import ProductModal from '../components/ProductModal';
 
 export default function Menu() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState('all');
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const { addToCart } = useCart();
   const { addToast } = useToast();
 
@@ -79,10 +81,10 @@ export default function Menu() {
         {categories.length > 0 ? (
           <>
             {/* Category Filter */}
-            <div className="flex flex-wrap justify-center gap-3 mb-10">
+            <div className="flex flex-wrap justify-center gap-2 mb-8 overflow-x-auto px-2">
               <button
                 onClick={() => setActiveCategory('all')}
-                className={`px-6 py-3 rounded-xl font-bold text-sm transition-all ${
+                className={`px-4 py-3 rounded-xl font-bold text-sm transition-all whitespace-nowrap ${
                   activeCategory === 'all'
                     ? 'kfc-button text-white shadow-lg'
                     : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
@@ -94,7 +96,7 @@ export default function Menu() {
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`px-6 py-3 rounded-xl font-bold text-sm transition-all flex items-center gap-2 ${
+                  className={`px-4 py-3 rounded-xl font-bold text-sm transition-all flex items-center gap-2 whitespace-nowrap ${
                     activeCategory === cat.id
                       ? 'kfc-button text-white shadow-lg'
                       : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
@@ -108,20 +110,23 @@ export default function Menu() {
 
             {/* Menu Items */}
             {filteredCategories.map(category => (
-              <div key={category.id} className="mb-12">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="text-4xl">{category.icon}</span>
-                  <h2 className="font-display font-black text-2xl md:text-3xl text-gray-900">
+              <div key={category.id} className="mb-8">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-2xl md:text-3xl">{category.icon}</span>
+                  <h2 className="font-display font-black text-xl md:text-2xl text-gray-900">
                     {category.name}
                   </h2>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-4">
                   {category.items.map(item => (
                     <div key={item.id} className="relative">
-                      <div className="rounded-xl shadow overflow-hidden hover:shadow-lg transition-shadow duration-300 bg-white border border-amber-200 h-full flex flex-col cursor-pointer">
+                      <div 
+                        className="rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 bg-white border border-amber-200 h-full flex flex-col cursor-pointer"
+                        onClick={() => setSelectedProduct(item)}
+                      >
                         <div className="relative">
-                          <div className="relative overflow-hidden w-full h-32 md:h-36" style={{ aspectRatio: '400 / 300', backgroundColor: '#f3f4f6' }}>
+                          <div className="relative overflow-hidden w-full h-24 md:h-32" style={{ aspectRatio: '400 / 300', backgroundColor: '#f3f4f6' }}>
                             <img
                               src={item.image}
                               alt={item.name}
@@ -130,34 +135,35 @@ export default function Menu() {
                             />
                           </div>
                           {item.popular && (
-                            <span className="inline-flex items-center rounded-md border font-semibold transition-colors border-transparent bg-primary hover:bg-primary/80 absolute top-1 right-1 kfc-button text-white border-none shadow-lg text-xs px-2 py-1">
-                              <Star className="w-3 h-3 mr-0.5 fill-current" />
+                            <span className="inline-flex items-center rounded-md font-semibold transition-colors border-transparent bg-primary hover:bg-primary/80 absolute top-1 right-1 kfc-button text-white border-none shadow-lg text-xs px-2 py-0.5">
                               Top
                             </span>
                           )}
-                          <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-colors text-xs absolute top-1 left-1 w-8 h-8 p-0 rounded-full shadow-lg bg-white/90 hover:bg-white text-gray-400 hover:text-red-500">
+                          <button 
+                            className="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-colors text-xs absolute top-1 left-1 w-8 h-8 p-0 rounded-full shadow-lg bg-white/90 hover:bg-white text-gray-400 hover:text-red-500"
+                            aria-label="Ajouter aux favoris"
+                            onClick={(e) => { e.stopPropagation(); }}
+                          >
                             <Heart className="w-4 h-4" />
                           </button>
                         </div>
-                        <div className="p-3 bg-gradient-to-b from-white to-amber-50 flex-1 flex-col flex">
-                          <h3 className="font-bold text-sm md:text-base text-gray-900 mb-1 line-clamp-2 min-h-[40px] leading-tight">
+                        <div className="p-2 md:p-3 bg-gradient-to-b from-white to-amber-50 flex-1 flex-col flex">
+                          <h3 className="font-bold text-xs md:text-sm text-gray-900 mb-1 line-clamp-2 min-h-[32px] md:min-h-[40px] leading-tight">
                             {item.name}
                           </h3>
-                          <p className="text-xs md:text-sm text-gray-600 mb-2 line-clamp-2">
+                          <p className="text-xs text-gray-500 mb-2 line-clamp-1 hidden">
                             {item.description}
                           </p>
                           <div className="mt-auto">
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-base md:text-lg font-black text-[#E4002B]">
-                                {item.fromPrice ? 'À partir de ' : ''}{item.price.toLocaleString('fr-FR')}F
-                              </span>
-                            </div>
+                            <span className="text-sm md:text-base font-black text-[#E4002B] block mb-2">
+                              {item.fromPrice ? 'À partir de ' : ''}{item.price.toLocaleString('fr-FR')}F
+                            </span>
                             <button
-                              onClick={() => { addToCart(item); addToast(`${item.name} ajouté au panier !`, 'success'); }}
-                              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors bg-primary shadow hover:bg-primary/90 py-2 w-full kfc-button text-white text-xs md:text-sm h-10 md:h-11 px-3 min-w-[80px]"
+                              onClick={(e) => { e.stopPropagation(); addToCart(item); addToast(`${item.name} ajouté au panier !`, 'success'); }}
+                              className="inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-md font-bold transition-colors bg-primary shadow hover:bg-primary/90 py-2 w-full kfc-button text-white text-xs md:text-sm h-9 md:h-10 px-2"
                               aria-label={`Ajouter ${item.name} au panier`}
                             >
-                              <ShoppingBag className="w-4 h-4 mr-1" />
+                              <ShoppingBag className="w-3.5 h-3.5" />
                               Ajouter
                             </button>
                           </div>
@@ -176,6 +182,14 @@ export default function Menu() {
           </div>
         )}
       </div>
+
+      {/* Product Modal */}
+      {selectedProduct && (
+        <ProductModal 
+          product={selectedProduct} 
+          onClose={() => setSelectedProduct(null)} 
+        />
+      )}
     </main>
   );
 }

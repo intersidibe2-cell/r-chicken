@@ -119,39 +119,39 @@ export default function Header() {
 
       {/* Mobile Bottom Navigation */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#1A1A1A] border-t-4 border-[#E4002B] shadow-2xl pb-safe" aria-label="Navigation principale">
-        <div className="grid grid-cols-5 gap-1 px-2 py-2">
+        <div className="grid grid-cols-5 gap-0 px-1 py-1">
           <Link to="/" className="flex flex-col items-center">
             <button 
-              className={`min-h-[56px] px-2 w-full flex flex-col items-center justify-center gap-1 rounded-md transition-colors ${
+              className={`min-h-[64px] px-1 w-full flex flex-col items-center justify-center gap-1 rounded-md transition-colors ${
                 location.pathname === '/' ? 'text-white bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5'
               }`}
               aria-label="Page d'accueil"
             >
-              <House className="w-6 h-6" />
-              <span className="text-[10px] font-bold">Accueil</span>
+              <House className="w-7 h-7" />
+              <span className="text-[11px] font-bold">Accueil</span>
             </button>
           </Link>
           <Link to="/menu" className="flex flex-col items-center">
             <button 
-              className={`min-h-[56px] px-2 w-full flex flex-col items-center justify-center gap-1 rounded-md transition-colors ${
+              className={`min-h-[64px] px-1 w-full flex flex-col items-center justify-center gap-1 rounded-md transition-colors ${
                 location.pathname === '/menu' ? 'text-white bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5'
               }`}
               aria-label="Voir le menu"
             >
-              <UtensilsCrossed className="w-6 h-6" />
-              <span className="text-[10px] font-bold">Menu</span>
+              <UtensilsCrossed className="w-7 h-7" />
+              <span className="text-[11px] font-bold">Menu</span>
             </button>
           </Link>
-          <Link to="/cart" className="flex flex-col items-center -mt-5">
+          <Link to="/cart" className="flex flex-col items-center -mt-6">
             <button
-              className="w-[60px] h-[60px] rounded-full kfc-button text-white shadow-2xl flex flex-col items-center justify-center gap-0.5 relative border-4 border-white"
+              className="w-[70px] h-[70px] rounded-full kfc-button text-white shadow-2xl flex flex-col items-center justify-center gap-0 relative border-4 border-white"
               style={{ animation: 'pulse-glow 2s ease infinite' }}
               aria-label={`Panier - ${totalItems} article${totalItems !== 1 ? 's' : ''}`}
             >
-              <ShoppingBag className="w-6 h-6" />
-              <span className="text-[9px] font-black">PANIER</span>
+              <ShoppingBag className="w-7 h-7" />
+              <span className="text-[10px] font-black">PANIER</span>
               {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#FFB81C] text-[#1A1A1A] text-xs font-black rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-[#FFB81C] text-[#1A1A1A] text-xs font-black rounded-full w-6 h-6 flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
@@ -159,24 +159,24 @@ export default function Header() {
           </Link>
           <Link to="/orders" className="flex flex-col items-center">
             <button 
-              className={`min-h-[56px] px-2 w-full flex flex-col items-center justify-center gap-1 rounded-md transition-colors ${
+              className={`min-h-[64px] px-1 w-full flex flex-col items-center justify-center gap-1 rounded-md transition-colors ${
                 location.pathname === '/orders' ? 'text-white bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5'
               }`}
               aria-label="Mes commandes"
             >
-              <Receipt className="w-6 h-6" />
-              <span className="text-[10px] font-bold">Commandes</span>
+              <Receipt className="w-7 h-7" />
+              <span className="text-[11px] font-bold">Commandes</span>
             </button>
           </Link>
           <Link to="/promotions" className="flex flex-col items-center">
             <button 
-              className={`min-h-[56px] px-2 w-full flex flex-col items-center justify-center gap-1 rounded-md transition-colors ${
+              className={`min-h-[64px] px-1 w-full flex flex-col items-center justify-center gap-1 rounded-md transition-colors ${
                 location.pathname === '/promotions' ? 'text-white bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5'
               }`}
               aria-label="Promotions"
             >
-              <Tag className="w-6 h-6" />
-              <span className="text-[10px] font-bold">Promos</span>
+              <Tag className="w-7 h-7" />
+              <span className="text-[11px] font-bold">Promos</span>
             </button>
           </Link>
         </div>

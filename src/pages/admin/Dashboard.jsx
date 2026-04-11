@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import AdminLayout from '../../components/AdminLayout';
 import {
   TrendingUp, ShoppingCart, Users, Package, ArrowUpRight, ArrowDownRight,
-  Clock, CheckCircle, XCircle, Truck
+  Clock, CheckCircle, XCircle, Truck, Phone, FileText, Shield, Gift,
+  Star, DollarSign, Box, LayoutGrid, Award, Ticket, ChefHat, Truck as DeliveryIcon,
+  MapPin, Settings
 } from 'lucide-react';
 import {
   LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
@@ -131,6 +134,73 @@ export default function AdminDashboard() {
               <p className="text-sm text-gray-500 mt-1">{stat.title}</p>
             </div>
           ))}
+        </div>
+
+        {/* Actions Rapides */}
+        <div>
+          <h2 className="text-xl font-black text-gray-900 mb-4">⚡ Actions Rapides</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Link to="/admin/orders" className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <Phone className="w-8 h-8 mb-2" />
+              <p className="font-bold">Commande WhatsApp</p>
+              <p className="text-xs text-white/70">Enregistrer commande</p>
+            </Link>
+            <Link to="/admin/orders" className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <FileText className="w-8 h-8 mb-2" />
+              <p className="font-bold">Toutes Commandes</p>
+              <p className="text-xs text-white/70">Voir toutes</p>
+            </Link>
+            <Link to="/admin/clients" className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <Users className="w-8 h-8 mb-2" />
+              <p className="font-bold">Clients</p>
+              <p className="text-xs text-white/70">16 clients</p>
+            </Link>
+            <Link to="/admin/employees" className="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <Shield className="w-8 h-8 mb-2" />
+              <p className="font-bold">Accès Employés</p>
+              <p className="text-xs text-white/70">Gérer les rôles</p>
+            </Link>
+            <Link to="/admin/promotions" className="bg-gradient-to-br from-pink-500 to-pink-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <Gift className="w-8 h-8 mb-2" />
+              <p className="font-bold">Codes Promo</p>
+              <p className="text-xs text-white/70">Créer/gérer codes</p>
+            </Link>
+            <Link to="/admin/loyalty" className="bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <Star className="w-8 h-8 mb-2" />
+              <p className="font-bold">Points Fidélité</p>
+              <p className="text-xs text-white/70">Ajuster points</p>
+            </Link>
+            <Link to="/admin/accounting" className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <DollarSign className="w-8 h-8 mb-2" />
+              <p className="font-bold">Comptabilité</p>
+              <p className="text-xs text-white/70">Code requis</p>
+            </Link>
+            <Link to="/admin/inventory" className="bg-gradient-to-br from-violet-500 to-violet-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <Box className="w-8 h-8 mb-2" />
+              <p className="font-bold">Inventaire</p>
+              <p className="text-xs text-white/70">Stocks</p>
+            </Link>
+            <Link to="/admin/products" className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <LayoutGrid className="w-8 h-8 mb-2" />
+              <p className="font-bold">Produits</p>
+              <p className="text-xs text-white/70">Gérer menu</p>
+            </Link>
+            <Link to="/admin/featured" className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <Award className="w-8 h-8 mb-2" />
+              <p className="font-bold">Ordre Phares</p>
+              <p className="text-xs text-white/70">Réorganiser phares</p>
+            </Link>
+            <Link to="/admin/kitchen" className="bg-gradient-to-br from-red-500 to-red-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <ChefHat className="w-8 h-8 mb-2" />
+              <p className="font-bold">Écran Cuisine</p>
+              <p className="text-xs text-white/70">Commandes en cours</p>
+            </Link>
+            <Link to="/admin/delivery" className="bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <MapPin className="w-8 h-8 mb-2" />
+              <p className="font-bold">Zones Livraison</p>
+              <p className="text-xs text-white/70">Gérer zones</p>
+            </Link>
+          </div>
         </div>
 
         {/* Charts Row */}
