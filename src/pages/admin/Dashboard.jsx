@@ -5,7 +5,7 @@ import {
   TrendingUp, ShoppingCart, Users, Package, ArrowUpRight, ArrowDownRight,
   Clock, CheckCircle, XCircle, Truck, Phone, FileText, Shield, Gift,
   Star, DollarSign, Box, LayoutGrid, Award, Ticket, ChefHat, Truck as DeliveryIcon,
-  MapPin, Settings
+  MapPin, Settings, Smartphone, Image, BookOpen, Monitor, MessageCircle
 } from 'lucide-react';
 import {
   LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
@@ -146,9 +146,14 @@ export default function AdminDashboard() {
               <p className="text-xs text-white/70">Enregistrer commande</p>
             </Link>
             <Link to="/admin/orders" className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
-              <FileText className="w-8 h-8 mb-2" />
+              <ShoppingCart className="w-8 h-8 mb-2" />
               <p className="font-bold">Toutes Commandes</p>
               <p className="text-xs text-white/70">Voir toutes</p>
+            </Link>
+            <Link to="/admin/whatsapp-orders" className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <MessageCircle className="w-8 h-8 mb-2" />
+              <p className="font-bold">WhatsApp</p>
+              <p className="text-xs text-white/70">Commandes WA</p>
             </Link>
             <Link to="/admin/clients" className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
               <Users className="w-8 h-8 mb-2" />
@@ -164,6 +169,31 @@ export default function AdminDashboard() {
               <Gift className="w-8 h-8 mb-2" />
               <p className="font-bold">Codes Promo</p>
               <p className="text-xs text-white/70">Créer/gérer codes</p>
+            </Link>
+            <Link to="/admin/marketing/qr" className="bg-gradient-to-br from-fuchsia-500 to-fuchsia-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <Smartphone className="w-8 h-8 mb-2" />
+              <p className="font-bold">QR Marketing</p>
+              <p className="text-xs text-white/70">Codes QR</p>
+            </Link>
+            <Link to="/admin/marketing/flyers" className="bg-gradient-to-br from-rose-500 to-rose-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <FileText className="w-8 h-8 mb-2" />
+              <p className="font-bold">Flyers</p>
+              <p className="text-xs text-white/70">À imprimer</p>
+            </Link>
+            <Link to="/admin/marketing/affiche" className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <Image className="w-8 h-8 mb-2" />
+              <p className="font-bold">Affiches</p>
+              <p className="text-xs text-white/70">Grands formats</p>
+            </Link>
+            <Link to="/admin/marketing/menu" className="bg-gradient-to-br from-violet-500 to-violet-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <BookOpen className="w-8 h-8 mb-2" />
+              <p className="font-bold">Menu Public</p>
+              <p className="text-xs text-white/70">Menu imprimable</p>
+            </Link>
+            <Link to="/admin/marketing/tv" className="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <Monitor className="w-8 h-8 mb-2" />
+              <p className="font-bold">Affiche TV</p>
+              <p className="text-xs text-white/70">Diaporama</p>
             </Link>
             <Link to="/admin/loyalty" className="bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
               <Star className="w-8 h-8 mb-2" />
@@ -199,6 +229,16 @@ export default function AdminDashboard() {
               <MapPin className="w-8 h-8 mb-2" />
               <p className="font-bold">Zones Livraison</p>
               <p className="text-xs text-white/70">Gérer zones</p>
+            </Link>
+            <Link to="/admin/cashier" className="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <FileText className="w-8 h-8 mb-2" />
+              <p className="font-bold">Caisse</p>
+              <p className="text-xs text-white/70">Saisie rapide</p>
+            </Link>
+            <Link to="/admin/manual-accounting" className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl p-4 text-white hover:scale-105 transition-transform shadow-lg">
+              <DollarSign className="w-8 h-8 mb-2" />
+              <p className="font-bold">Compta. Manuelle</p>
+              <p className="text-xs text-white/70">Recettes/Dépenses</p>
             </Link>
           </div>
         </div>

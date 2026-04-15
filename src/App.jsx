@@ -22,6 +22,16 @@ import AdminInventory from './pages/admin/Inventory';
 import AdminLoyalty from './pages/admin/Loyalty';
 import AdminDeliveryZones from './pages/admin/DeliveryZones';
 import AdminClients from './pages/admin/Clients';
+import AdminCashier from './pages/admin/Cashier';
+import AdminManualAccounting from './pages/admin/ManualAccounting';
+import AdminQRMarketing from './pages/admin/QRMarketing';
+import AdminFlyers from './pages/admin/Flyers';
+import AdminAffiche from './pages/admin/Affiche';
+import AdminMenuPublic from './pages/admin/MenuPublic';
+import AdminAfficheTV from './pages/admin/AfficheTV';
+import AdminWhatsAppOrders from './pages/admin/WhatsAppOrders';
+import OrderTracking from './pages/OrderTracking';
+import NotificationsPage from './pages/Notifications';
 import MobilePreview from './pages/MobilePreview';
 
 export default function App() {
@@ -116,6 +126,16 @@ export default function App() {
       <Route path="/admin/loyalty" element={<AdminLoyalty />} />
       <Route path="/admin/delivery" element={<AdminDeliveryZones />} />
       <Route path="/admin/clients" element={<AdminClients />} />
+      <Route path="/admin/cashier" element={<AdminCashier />} />
+      <Route path="/admin/manual-accounting" element={<AdminManualAccounting />} />
+      <Route path="/admin/marketing/qr" element={<AdminQRMarketing />} />
+      <Route path="/admin/marketing/flyers" element={<AdminFlyers />} />
+      <Route path="/admin/marketing/affiche" element={<AdminAffiche />} />
+      <Route path="/admin/marketing/menu" element={<AdminMenuPublic />} />
+      <Route path="/admin/marketing/tv" element={<AdminAfficheTV />} />
+      <Route path="/admin/whatsapp-orders" element={<AdminWhatsAppOrders />} />
+      <Route path="/order-tracking" element={<OrderTracking />} />
+      <Route path="/notifications" element={<NotificationsPage />} />
     </Routes>
   );
 }

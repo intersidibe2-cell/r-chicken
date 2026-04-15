@@ -5,6 +5,8 @@ import { useCart } from '../context/CartContext';
 import { useToast } from '../components/Toast';
 import ProductModal from '../components/ProductModal';
 
+const MENU_VERSION = '5.0'; // Version du menu - incrémenter pour forcer le rechargement
+
 export default function Menu() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -15,7 +17,17 @@ export default function Menu() {
 
   useEffect(() => {
     const loadProducts = () => {
+      const savedVersion = localStorage.getItem('rchicken_menu_version');
       const saved = localStorage.getItem('rchicken_products');
+      
+      // Si la version a changé ou pas de produits sauvegardés, charger depuis menu.js
+      if (savedVersion !== MENU_VERSION || !saved) {
+        localStorage.setItem('rchicken_menu_version', MENU_VERSION);
+        localStorage.removeItem('rchicken_products');
+        loadDefaultMenu();
+        return;
+      }
+
       if (saved) {
         try {
           const parsedProducts = JSON.parse(saved);
@@ -151,7 +163,7 @@ export default function Menu() {
                           <h3 className="font-bold text-xs md:text-sm text-gray-900 mb-1 line-clamp-2 min-h-[32px] md:min-h-[40px] leading-tight">
                             {item.name}
                           </h3>
-                          <p className="text-xs text-gray-500 mb-2 line-clamp-1 hidden">
+                          <p className="text-xs text-gray-500 mb-2 line-clamp-2">
                             {item.description}
                           </p>
                           <div className="mt-auto">
@@ -159,12 +171,29 @@ export default function Menu() {
                               {item.fromPrice ? 'À partir de ' : ''}{item.price.toLocaleString('fr-FR')}F
                             </span>
                             <button
-                              onClick={(e) => { e.stopPropagation(); addToCart(item); addToast(`${item.name} ajouté au panier !`, 'success'); }}
+                              onClick={(e) => { 
+                                e.stopPropagation(); 
+                                if (item.sizes && item.sizes.length > 0) {
+                                  setSelectedProduct(item);
+                                } else {
+                                  addToCart(item); 
+                                  addToast(`${item.name} ajouté au panier !`, 'success');
+                                }
+                              }}
                               className="inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-md font-bold transition-colors bg-primary shadow hover:bg-primary/90 py-2 w-full kfc-button text-white text-xs md:text-sm h-9 md:h-10 px-2"
-                              aria-label={`Ajouter ${item.name} au panier`}
+                              aria-label={item.sizes ? `Choisir la taille ${item.name}` : `Ajouter ${item.name} au panier`}
                             >
-                              <ShoppingBag className="w-3.5 h-3.5" />
-                              Ajouter
+                              {item.sizes ? (
+                                <>
+                                  <span className="text-base">📏</span>
+                                  Choisir
+                                </>
+                              ) : (
+                                <>
+                                  <ShoppingBag className="w-3.5 h-3.5" />
+                                  Ajouter
+                                </>
+                              )}
                             </button>
                           </div>
                         </div>

@@ -2,31 +2,52 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68f949d4d809a1ce10488916/94e8b5039_Gemini_Generated_Image_51rs3n51rs3n51rs.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Commandez facilement vos plats préférés de notre restaurant fast-food. Parcourez notre menu, personnalisez votre commande et faites-vous livrer rapidement ou retirez-la au restaurant." />
-    <meta property="og:title" content="R-CHICKEN" />
-    <meta property="og:description" content="Commandez facilement vos plats préférés de notre restaurant fast-food. Parcourez notre menu, personnalisez votre commande et faites-vous livrer rapidement ou retirez-la au restaurant." />
-    <meta property="og:image" content="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/render/image/public/base44-prod/public/68f949d4d809a1ce10488916/94e8b5039_Gemini_Generated_Image_51rs3n51rs3n51rs.png?width=1200&height=630&resize=contain" />
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/ZqqPkfws/Gemini-Generated-Image-v9q21uv9q21uv9q2.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="R-CHICKEN - Commandez votre poulet frit préféré à Bamako. Livraison rapide 24h/24, Orange Money, Wave, Sarali acceptés." />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#E4002B" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="R-CHICKEN" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="R-CHICKEN - Le Poulet Croustillant Malien" />
+    <meta property="og:description" content="Commandez votre poulet frit préféré à Bamako. Livraison rapide 24h/24!" />
+    <meta property="og:image" content="https://i.postimg.cc/ZqqPkfws/Gemini-Generated-Image-v9q21uv9q21uv9q2.png" />
     <meta property="og:url" content="https://r-chicken.com" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="R-CHICKEN" />
-    <meta name="twitter:title" content="R-CHICKEN" />
-    <meta name="twitter:description" content="Commandez facilement vos plats préférés de notre restaurant fast-food. Parcourez notre menu, personnalisez votre commande et faites-vous livrer rapidement ou retirez-la au restaurant." />
-    <meta name="twitter:image" content="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/render/image/public/base44-prod/public/68f949d4d809a1ce10488916/94e8b5039_Gemini_Generated_Image_51rs3n51rs3n51rs.png?width=1200&height=630&resize=contain" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="apple-mobile-web-app-title" content="R-CHICKEN" />
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/ZqqPkfws/Gemini-Generated-Image-v9q21uv9q21uv9q2.png" />
+    
     <link rel="canonical" href="https://r-chicken.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
-    <title>R-CHICKEN</title>
-    <script type="module" crossorigin src="/assets/index-BKnEIir3.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-C3gJwSKJ.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>R-CHICKEN - Le Poulet Croustillant Malien</title>
+    <script type="module" crossorigin src="/assets/index-CTic4fbY.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-PZxR0v2o.css">
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Register Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered:', registration.scope);
+            })
+            .catch((error) => {
+              console.log('SW registration failed:', error);
+            });
+        });
+      }
+    </script>
   </body>
 </html>

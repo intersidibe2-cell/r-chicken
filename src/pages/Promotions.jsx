@@ -1,6 +1,17 @@
-import { Gift, Tag, Users, Trophy } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Gift, Tag, Users, Trophy, Copy, Check } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Promotions() {
+  const [copied, setCopied] = useState(false);
+  const referralCode = 'RCHICKEN-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+
+  const copyReferralCode = () => {
+    navigator.clipboard.writeText(referralCode);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <main className="pt-20 min-h-screen bg-gray-50 pb-20 md:pb-0">
       <div className="max-w-4xl mx-auto px-4 py-8">
@@ -16,6 +27,7 @@ export default function Promotions() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
+          {/* Code Promo */}
           <div className="bg-gradient-to-br from-[#E4002B] to-[#C4001F] rounded-2xl p-6 text-white">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
@@ -31,6 +43,7 @@ export default function Promotions() {
             </div>
           </div>
 
+          {/* Parrainage */}
           <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-6 text-white">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
@@ -41,12 +54,25 @@ export default function Promotions() {
             <p className="text-white/80 mb-4">
               Parrainez un ami et recevez 2 000F de réduction chacun !
             </p>
-            <button className="bg-white text-blue-600 px-6 py-3 rounded-xl font-black hover:bg-yellow-400 hover:text-black transition-colors">
+            <div className="bg-white/20 rounded-lg p-3 mb-3 flex items-center justify-between">
+              <p className="font-black text-lg">{referralCode}</p>
+              <button 
+                onClick={copyReferralCode}
+                className="bg-white/30 hover:bg-white/40 p-2 rounded-lg transition-colors"
+              >
+                {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+              </button>
+            </div>
+            <Link 
+              to="/profile"
+              className="block w-full bg-white text-blue-600 px-6 py-3 rounded-xl font-black hover:bg-yellow-400 hover:text-black transition-colors text-center"
+            >
               PARRAINER UN AMI
-            </button>
+            </Link>
           </div>
 
-          <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl p-6 text-white">
+          {/* Programme Fidélité */}
+          <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl p-6 text-white md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
                 <Trophy className="w-6 h-6" />
@@ -56,9 +82,29 @@ export default function Promotions() {
             <p className="text-white/80 mb-4">
               Cumulez des points à chaque commande et échangez-les contre des plats gratuits !
             </p>
-            <button className="bg-white text-orange-600 px-6 py-3 rounded-xl font-black hover:bg-yellow-400 hover:text-black transition-colors">
+            <div className="grid grid-cols-3 gap-4 mb-4">
+              <div className="bg-white/20 rounded-xl p-4 text-center">
+                <p className="text-3xl mb-1">🍗</p>
+                <p className="font-black text-xl">+100</p>
+                <p className="text-sm">Points/commande</p>
+              </div>
+              <div className="bg-white/20 rounded-xl p-4 text-center">
+                <p className="text-3xl mb-1">💎</p>
+                <p className="font-black text-xl">100 pts</p>
+                <p className="text-sm">= 250 FCFA</p>
+              </div>
+              <div className="bg-white/20 rounded-xl p-4 text-center">
+                <p className="text-3xl mb-1">🎁</p>
+                <p className="font-black text-xl">5000 pts</p>
+                <p className="text-sm">= Commande gratuite</p>
+              </div>
+            </div>
+            <Link 
+              to="/profile"
+              className="block w-full bg-white text-orange-600 px-6 py-3 rounded-xl font-black hover:bg-yellow-400 hover:text-black transition-colors text-center"
+            >
               VOIR MES POINTS
-            </button>
+            </Link>
           </div>
         </div>
       </div>

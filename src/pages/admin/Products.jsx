@@ -7,17 +7,24 @@ import {
 import { useDropzone } from 'react-dropzone';
 import { menuData } from '../../data/menu';
 
+const MENU_VERSION = '5.0';
+
 export default function AdminProducts() {
   const [products, setProducts] = useState(() => {
+    const savedVersion = localStorage.getItem('rchicken_menu_version');
     const saved = localStorage.getItem('rchicken_products');
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch {
-        return menuData.categories.flatMap(cat => cat.items.map(item => ({ ...item, category: cat.id, visible: true })));
-      }
+    
+    if (savedVersion !== MENU_VERSION || !saved) {
+      localStorage.setItem('rchicken_menu_version', MENU_VERSION);
+      localStorage.removeItem('rchicken_products');
+      return menuData.categories.flatMap(cat => cat.items.map(item => ({ ...item, category: cat.id, visible: true })));
     }
-    return menuData.categories.flatMap(cat => cat.items.map(item => ({ ...item, category: cat.id, visible: true })));
+    
+    try {
+      return JSON.parse(saved);
+    } catch {
+      return menuData.categories.flatMap(cat => cat.items.map(item => ({ ...item, category: cat.id, visible: true })));
+    }
   });
 
   const [showModal, setShowModal] = useState(false);

@@ -8,6 +8,8 @@ import { useCart } from '../context/CartContext';
 import { useToast } from '../components/Toast';
 import { menuData } from '../data/menu';
 
+const MENU_VERSION = '5.0';
+
 export default function Home() {
   const { addToCart } = useCart();
   const { addToast } = useToast();
@@ -15,15 +17,20 @@ export default function Home() {
 
   useEffect(() => {
     const loadBestSellers = () => {
+      const savedVersion = localStorage.getItem('rchicken_menu_version');
       const saved = localStorage.getItem('rchicken_products');
-      if (saved) {
-        try {
-          const products = JSON.parse(saved).filter(p => p.visible !== false);
-          setBestSellers(products.slice(0, 6));
-        } catch {
-          setBestSellers(menuData.categories.flatMap(c => c.items).slice(0, 6));
-        }
-      } else {
+      
+      if (savedVersion !== MENU_VERSION || !saved) {
+        localStorage.setItem('rchicken_menu_version', MENU_VERSION);
+        localStorage.removeItem('rchicken_products');
+        setBestSellers(menuData.categories.flatMap(c => c.items).slice(0, 6));
+        return;
+      }
+      
+      try {
+        const products = JSON.parse(saved).filter(p => p.visible !== false);
+        setBestSellers(products.slice(0, 6));
+      } catch {
         setBestSellers(menuData.categories.flatMap(c => c.items).slice(0, 6));
       }
     };
@@ -235,6 +242,99 @@ export default function Home() {
                 📞 Appeler : +223 83 80 61 29
               </button>
             </a>
+          </div>
+        </div>
+
+        {/* Testimonials Section */}
+        <div className="bg-gradient-to-b from-amber-50 to-white py-8 md:py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-2">
+                ⭐ Ce que disent nos clients
+              </h2>
+              <p className="text-gray-600">Plus de 10 000 clients satisfaits à Bamako</p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-4 md:gap-6">
+              {/* Testimonial 1 */}
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-amber-100">
+                <div className="flex items-center gap-1 mb-3">
+                  {[1,2,3,4,5].map(i => (
+                    <span key={i} className="text-yellow-400">★</span>
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-4 italic">
+                  "Le meilleur poulet frit de Bamako ! Livraison rapide et toujours chaud. Ma famille adore la Box Famille !"
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center font-bold text-orange-600">
+                    MD
+                  </div>
+                  <div>
+                    <p className="font-bold text-gray-900">Moussa D.</p>
+                    <p className="text-xs text-gray-500">Baco-djicoroni • Client fidèle</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Testimonial 2 */}
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-amber-100">
+                <div className="flex items-center gap-1 mb-3">
+                  {[1,2,3,4,5].map(i => (
+                    <span key={i} className="text-yellow-400">★</span>
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-4 italic">
+                  "Commande via WhatsApp super facile ! Le livreur est arrivé en 25 min. Je recommande la Box S Solo, elle est top !"
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center font-bold text-pink-600">
+                    FT
+                  </div>
+                  <div>
+                    <p className="font-bold text-gray-900">Fatoumata T.</p>
+                    <p className="text-xs text-gray-500">Hippodrome • 15 commandes</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Testimonial 3 */}
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-amber-100">
+                <div className="flex items-center gap-1 mb-3">
+                  {[1,2,3,4,5].map(i => (
+                    <span key={i} className="text-yellow-400">★</span>
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-4 italic">
+                  "Je commande toujours pour le bureau. La Box XXL Party est parfaite pour nos réunions. Prix imbattables !"
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center font-bold text-blue-600">
+                    IK
+                  </div>
+                  <div>
+                    <p className="font-bold text-gray-900">Ibrahim K.</p>
+                    <p className="text-xs text-gray-500">Badalabougou • 28 commandes</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-4 mt-8 max-w-2xl mx-auto">
+              <div className="text-center">
+                <p className="text-3xl md:text-4xl font-black text-[#E4002B]">10K+</p>
+                <p className="text-sm text-gray-600">Clients satisfaits</p>
+              </div>
+              <div className="text-center">
+                <p className="text-3xl md:text-4xl font-black text-[#E4002B]">4.9</p>
+                <p className="text-sm text-gray-600">Note moyenne ⭐</p>
+              </div>
+              <div className="text-center">
+                <p className="text-3xl md:text-4xl font-black text-[#E4002B]">25</p>
+                <p className="text-sm text-gray-600">Min livraison</p>
+              </div>
+            </div>
           </div>
         </div>
 

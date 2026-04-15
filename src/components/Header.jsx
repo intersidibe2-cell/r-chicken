@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ShoppingCart, Download, Bell, User, ShoppingBag, Receipt, Tag, House, UtensilsCrossed, LayoutDashboard } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import NotificationBell from './NotificationBell';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -87,12 +88,7 @@ export default function Header() {
                 </Link>
               </nav>
 
-              <button 
-                className="inline-flex items-center justify-center h-10 w-10 rounded-md text-sm font-medium transition-colors text-gray-300 hover:text-white hover:bg-white/10 btn-touch"
-                aria-label="Notifications"
-              >
-                <Bell className="w-5 h-5" />
-              </button>
+              <NotificationBell />
 
               <Link to="/profile">
                 <button 
