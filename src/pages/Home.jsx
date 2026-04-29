@@ -190,7 +190,7 @@ export default function Home() {
                       <div className="mt-auto">
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-sm md:text-lg font-black text-[#E4002B]">
-                            {item.fromPrice ? 'À partir de ' : ''}{(item.price || 0).toLocaleString('fr-FR')}F
+                          {item.fromPrice ? 'À partir de ' : ''}{((item.price ?? 0)).toLocaleString('fr-FR')}F
                           </span>
                         </div>
                         <Link to="/menu">

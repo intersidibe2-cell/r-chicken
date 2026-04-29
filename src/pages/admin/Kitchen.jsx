@@ -65,7 +65,7 @@ export default function KitchenScreen() {
                 ))}
               </div>
               
-              <p className="font-bold text-xl mt-2 text-green-400">{order.total?.toLocaleString()}F</p>
+              <p className="font-bold text-xl mt-2 text-green-400">{(order.total ?? 0).toLocaleString()}F</p>
               
               <button
                 onClick={() => updateStatus(order.id, order.status === 'en attente' ? 'en cours' : 'prêt')}

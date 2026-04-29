@@ -80,7 +80,7 @@ export default function AdminOrders() {
                   </span>
                 </div>
                 
-                <p className="font-bold mt-2">{order.total?.toLocaleString()}F</p>
+                <p className="font-bold mt-2">{(order.total ?? 0).toLocaleString()}F</p>
                 
                 <div className="flex gap-2 mt-3">
                   <button

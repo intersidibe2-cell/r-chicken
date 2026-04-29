@@ -56,11 +56,11 @@ export default function DeliveryZones() {
             <p className="text-sm text-gray-500">Actives</p>
           </div>
           <div className="bg-white rounded-xl p-4 shadow-sm border">
-            <p className="text-2xl font-black text-blue-600">{zones.filter(z => z.active).length > 0 ? Math.min(...zones.filter(z => z.active).map(z => z.price)).toLocaleString() : 0}F</p>
+            <p className="text-2xl font-black text-blue-600">{zones.filter(z => z.active).length > 0 ? Math.min(...zones.filter(z => z.active).map(z => z.price ?? 0)).toLocaleString() : 0}F</p>
             <p className="text-sm text-gray-500">Livraison min</p>
           </div>
           <div className="bg-white rounded-xl p-4 shadow-sm border">
-            <p className="text-2xl font-black text-purple-600">{zones.filter(z => z.active).length > 0 ? Math.max(...zones.filter(z => z.active).map(z => z.price)).toLocaleString() : 0}F</p>
+            <p className="text-2xl font-black text-purple-600">{zones.filter(z => z.active).length > 0 ? Math.max(...zones.filter(z => z.active).map(z => z.price ?? 0)).toLocaleString() : 0}F</p>
             <p className="text-sm text-gray-500">Livraison max</p>
           </div>
         </div>
@@ -104,7 +104,7 @@ export default function DeliveryZones() {
               
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-2xl font-black text-[#E4002B]">{zone.price.toLocaleString()}F</p>
+                  <p className="text-2xl font-black text-[#E4002B]">{(zone.price ?? 0).toLocaleString()}F</p>
                   <p className="text-xs text-gray-500">Frais de livraison</p>
                 </div>
                 <div className="text-right">

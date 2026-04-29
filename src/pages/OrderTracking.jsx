@@ -333,7 +333,7 @@ export default function OrderTracking() {
               {(order.items || []).map((item, i) => (
                 <div key={i} className="flex justify-between text-sm">
                   <span>{item.quantity}x {item.name}</span>
-                  <span className="font-bold">{(item.subtotal || (item.price || 0) * (item.quantity || 1)).toLocaleString('fr-FR')}F</span>
+                  <span className="font-bold">{(((item.subtotal ?? ((item.price ?? 0) * (item.quantity ?? 1)))).toLocaleString('fr-FR'))}F</span>
                 </div>
               ))}
             </div>

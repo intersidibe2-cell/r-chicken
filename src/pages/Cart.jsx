@@ -325,7 +325,7 @@ export default function Cart() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Total</span>
-                  <span className="font-black text-lg text-[#E4002B]">{(grandTotal || 0).toLocaleString('fr-FR')}F</span>
+                  <span className="font-black text-lg text-[#E4002B]">{((grandTotal ?? 0)).toLocaleString('fr-FR')}F</span>
                 </div>
               </div>
             </div>
@@ -551,7 +551,7 @@ export default function Cart() {
                     />
                     <div className="flex-1">
                       <h3 className="font-bold text-gray-900">{item.name}</h3>
-                       <p className="text-[#E4002B] font-black">{(item.price || 0).toLocaleString('fr-FR')} F</p>
+                      <p className="text-[#E4002B] font-black">{((item.price ?? 0)).toLocaleString('fr-FR')} F</p>
                     </div>
                     <div className="flex items-center gap-2">
                       <button
@@ -723,7 +723,7 @@ export default function Cart() {
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Sous-total ({cartItems.reduce((sum, i) => sum + i.quantity, 0)} articles)</span>
-                   <span className="font-bold">{(totalPrice || 0).toLocaleString('fr-FR')} F</span>
+                   <span className="font-bold">{((totalPrice ?? 0)).toLocaleString('fr-FR')} F</span>
                 </div>
                 
                 <div className="flex justify-between">
@@ -759,7 +759,7 @@ export default function Cart() {
                 {tipAmount > 0 && (
                   <div className="flex justify-between text-green-600">
                     <span>💝 Pourboire livreur</span>
-                     <span className="font-bold">+{(tipAmount || 0).toLocaleString('fr-FR')} F</span>
+                    <span className="font-bold">+{((tipAmount ?? 0)).toLocaleString('fr-FR')} F</span>
                   </div>
                 )}
                 

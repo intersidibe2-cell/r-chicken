@@ -42,7 +42,7 @@ export default function AdminDashboard() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
               <div className="bg-white p-4 rounded-xl shadow">
                 <TrendingUp className="w-8 h-8 text-green-500 mb-2" />
-                <p className="text-2xl font-black">{(stats.totalRevenue || 0).toLocaleString()}F</p>
+                <p className="text-2xl font-black">{((stats.totalRevenue ?? 0)).toLocaleString()}F</p>
                 <p className="text-sm text-gray-500">Total CA</p>
               </div>
               <div className="bg-white p-4 rounded-xl shadow">
@@ -56,7 +56,7 @@ export default function AdminDashboard() {
                 <p className="text-sm text-gray-500">Clients</p>
               </div>
               <div className="bg-white p-4 rounded-xl shadow">
-                <p className="text-2xl font-black text-green-600">{(stats.todayRevenue || 0).toLocaleString()}F</p>
+                <p className="text-2xl font-black text-green-600">{((stats.todayRevenue ?? 0).toLocaleString())}F</p>
                 <p className="text-sm text-gray-500">Aujourd'hui</p>
               </div>
             </div>

@@ -176,7 +176,7 @@ export default function Menu() {
                           </p>
                           <div className="mt-auto">
                             <span className="text-sm md:text-base font-black text-[#E4002B] block mb-2">
-                              {item.fromPrice ? 'À partir de ' : ''}{(item.price || 0).toLocaleString('fr-FR')}F
+                              {item.fromPrice ? 'À partir de ' : ''}{((item.price ?? 0)).toLocaleString('fr-FR')}F
                             </span>
                             <button
                               onClick={(e) => { 
