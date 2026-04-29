@@ -1,37 +1,28 @@
-const CACHE_NAME = 'r-chicken-v8';
-const URLS_TO_CACHE = ['/', '/index.html'];
+const CACHE_NAME = 'r-chicken-v10';
 
-// Install: cache core files
-self.addEventListener('install', e => {
+self.addEventListener('install', function(e) {
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', function(e) {
   e.waitUntil(
-    caches.open(CACHE_NAME).then(c => c.addAll(URLS_TO_CACHE)).then(() => self.skipWaiting())
+    caches.keys().then(function(keys) {
+      return Promise.all(
+        keys.filter(function(k) { return k !== CACHE_NAME; }).map(function(k) {
+          return caches.delete(k);
+        })
+      );
+    }).then(function() {
+      return self.clients.claim();
+    })
   );
 });
 
-// Activate: DELETE all old caches, claim clients immediately
-self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.map(k => caches.delete(k)))
-    ).then(() => self.clients.claim())
-  );
-});
-
-// Fetch: network-first, fallback to cache, fallback to offline response
-self.addEventListener('fetch', e => {
+self.addEventListener('fetch', function(e) {
   if (e.request.method !== 'GET') return;
   e.respondWith(
-    fetch(e.request)
-      .then(res => {
-        // Clone and cache successful responses
-        const resClone = res.clone();
-        caches.open(CACHE_NAME).then(c => c.put(e.request, resClone));
-        return res;
-      })
-      .catch(() =>
-        caches.match(e.request).then(cached =>
-          cached || new Response('Offline', { status: 503, statusText: 'Service Unavailable' })
-        )
-      )
+    fetch(e.request).catch(function() {
+      return new Response('Erreur réseau', { status: 503 });
+    })
   );
 });

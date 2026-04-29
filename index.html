@@ -35,27 +35,19 @@
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
     <script>
-      // Register Service Worker with auto-update
+      // Nettoyage agressif : suppression de tous les SW et caches
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then((registration) => {
-              console.log('SW registered:', registration.scope);
-              // Check for updates
-              registration.addEventListener('updatefound', () => {
-                const newWorker = registration.installing;
-                newWorker.addEventListener('statechange', () => {
-                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                    // New SW ready, reload to activate
-                    window.location.reload();
-                  }
-                });
-              });
-            })
-            .catch((error) => {
-              console.log('SW registration failed:', error);
-            });
+        navigator.serviceWorker.getRegistrations().then(function(regs) {
+          regs.forEach(function(reg) {
+            reg.unregister();
+            console.log('SW supprimé:', reg.scope);
+          });
         });
+        if ('caches' in window) {
+          caches.keys().then(function(keys) {
+            keys.forEach(function(key) { caches.delete(key); });
+          });
+        }
       }
     </script>
   </body>
