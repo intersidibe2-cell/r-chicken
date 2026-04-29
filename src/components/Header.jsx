@@ -99,15 +99,17 @@ export default function Header() {
                   <span className="hidden md:inline">Profil</span>
                 </button>
               </Link>
-              <Link to="/admin">
-                <button 
-                  className="justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors h-10 px-4 py-2 bg-[#E4002B] hover:bg-[#C4001F] text-white flex items-center gap-2 btn-touch shadow-lg"
-                  aria-label="Panneau d'administration"
-                >
-                  <LayoutDashboard className="w-5 h-5" />
-                  <span className="hidden md:inline font-bold">Admin</span>
-                </button>
-              </Link>
+              {localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' && (
+                <Link to="/admin">
+                  <button 
+                    className="justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors h-10 px-4 py-2 bg-[#E4002B] hover:bg-[#C4001F] text-white flex items-center gap-2 btn-touch shadow-lg"
+                    aria-label="Panneau d'administration"
+                  >
+                    <LayoutDashboard className="w-5 h-5" />
+                    <span className="hidden md:inline font-bold">Admin</span>
+                  </button>
+                </Link>
+              )}
             </div>
           </div>
         </div>

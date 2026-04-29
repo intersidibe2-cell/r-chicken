@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext';
 import { useToast } from '../components/Toast';
 import ProductModal from '../components/ProductModal';
 
-const MENU_VERSION = '5.0'; // Version du menu - incrémenter pour forcer le rechargement
+const MENU_VERSION = '6.0'; // Version du menu - incrémenter pour forcer le rechargement
 
 export default function Menu() {
   const [products, setProducts] = useState([]);
@@ -56,8 +56,16 @@ export default function Menu() {
     };
 
     const loadDefaultMenu = () => {
-      const allProducts = menuData.categories.flatMap(cat => cat.items.map(item => ({ ...item, category: cat.id })));
-      setProducts(allProducts);
+      // Charger disponibilité depuis admin
+      const availability = JSON.parse(localStorage.getItem('rchicken_menu_availability') || '{}');
+      const allProducts = menuData.categories.flatMap(cat =>
+        cat.items.map(item => ({
+          ...item,
+          category: cat.id,
+          available: availability[item.id] !== false,
+        }))
+      );
+      setProducts(allProducts.filter(p => p.available !== false));
       setCategories(menuData.categories);
     };
 
@@ -168,32 +176,17 @@ export default function Menu() {
                           </p>
                           <div className="mt-auto">
                             <span className="text-sm md:text-base font-black text-[#E4002B] block mb-2">
-                              {item.fromPrice ? 'À partir de ' : ''}{item.price.toLocaleString('fr-FR')}F
+                              {item.fromPrice ? 'À partir de ' : ''}{(item.price || 0).toLocaleString('fr-FR')}F
                             </span>
                             <button
                               onClick={(e) => { 
                                 e.stopPropagation(); 
-                                if (item.sizes && item.sizes.length > 0) {
-                                  setSelectedProduct(item);
-                                } else {
-                                  addToCart(item); 
-                                  addToast(`${item.name} ajouté au panier !`, 'success');
-                                }
+                                setSelectedProduct(item);
                               }}
                               className="inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-md font-bold transition-colors bg-primary shadow hover:bg-primary/90 py-2 w-full kfc-button text-white text-xs md:text-sm h-9 md:h-10 px-2"
-                              aria-label={item.sizes ? `Choisir la taille ${item.name}` : `Ajouter ${item.name} au panier`}
                             >
-                              {item.sizes ? (
-                                <>
-                                  <span className="text-base">📏</span>
-                                  Choisir
-                                </>
-                              ) : (
-                                <>
-                                  <ShoppingBag className="w-3.5 h-3.5" />
-                                  Ajouter
-                                </>
-                              )}
+                              <ShoppingBag className="w-3.5 h-3.5" />
+                              Choisir
                             </button>
                           </div>
                         </div>

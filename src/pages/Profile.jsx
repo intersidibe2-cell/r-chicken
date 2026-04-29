@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { User, Package, ShoppingCart, Settings, LogOut, ChevronRight, Smartphone, Star, MapPin, Phone, Mail, Edit2, Gift, Clock, TrendingUp } from 'lucide-react';
+import { useToast } from '../components/Toast';
 
 export default function Profile() {
+  const { addToast } = useToast();
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem('rchicken_user');
     return saved ? JSON.parse(saved) : null;
@@ -140,15 +142,22 @@ export default function Profile() {
                 <button
                   onClick={() => {
                     localStorage.setItem('rchicken_user', JSON.stringify(user));
-                    alert('Profil sauvegardé !');
+                    addToast('Profil sauvegardé !', 'success');
                   }}
                   className="w-full bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
                 >
                   <Edit2 className="w-5 h-5" />
-                  Modifier
+                  Sauvegarder
                 </button>
 
-                <button className="w-full border-2 border-red-200 text-red-500 font-bold py-3 rounded-xl hover:bg-red-50 transition-colors flex items-center justify-center gap-2">
+                <button
+                  onClick={() => {
+                    localStorage.removeItem('rchicken_user');
+                    localStorage.removeItem('rchicken_cart');
+                    window.location.href = '/';
+                  }}
+                  className="w-full border-2 border-red-200 text-red-500 font-bold py-3 rounded-xl hover:bg-red-50 transition-colors flex items-center justify-center gap-2"
+                >
                   <LogOut className="w-5 h-5" />
                   Déconnexion
                 </button>
@@ -177,7 +186,7 @@ export default function Profile() {
                 {/* Total dépensé */}
                 <div className="bg-green-50 rounded-xl p-4 flex items-center justify-between">
                   <span className="font-medium text-gray-700">Total dépensé</span>
-                  <span className="text-2xl font-black text-green-600">{totalSpent.toLocaleString('fr-FR')} FCFA</span>
+                  <span className="text-2xl font-black text-green-600">{(totalSpent || 0).toLocaleString('fr-FR')} FCFA</span>
                 </div>
 
                 {/* Points de fidélité */}
@@ -190,7 +199,7 @@ export default function Profile() {
                     <span className="text-2xl font-black text-purple-600">{loyaltyPoints}</span>
                   </div>
                   <p className="text-sm text-purple-700 mb-3">
-                    Valeur: <span className="font-bold">{pointsValue.toLocaleString('fr-FR')} FCFA</span>
+                    Valeur: <span className="font-bold">{(pointsValue || 0).toLocaleString('fr-FR')} FCFA</span>
                   </p>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2 text-purple-700">
@@ -257,7 +266,7 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* Admin Links */}
+        {localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' && (
         <div className="mt-8 bg-white rounded-2xl shadow-lg overflow-hidden">
           <Link
             to="/admin"
@@ -274,23 +283,8 @@ export default function Profile() {
             </div>
             <ChevronRight className="w-5 h-5 text-gray-400" />
           </Link>
-
-          <Link
-            to="/mobile-preview"
-            className="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center">
-                <Smartphone className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <span className="font-bold text-gray-900 block">Version Mobile</span>
-                <span className="text-xs text-gray-500">Aperçu mobile</span>
-              </div>
-            </div>
-            <ChevronRight className="w-5 h-5 text-gray-400" />
-          </Link>
         </div>
+        )}
       </div>
     </main>
   );

@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -30,6 +30,8 @@ import AdminAffiche from './pages/admin/Affiche';
 import AdminMenuPublic from './pages/admin/MenuPublic';
 import AdminAfficheTV from './pages/admin/AfficheTV';
 import AdminWhatsAppOrders from './pages/admin/WhatsAppOrders';
+import AdminLogin from './pages/admin/Login';
+import NewAdmin from './pages/admin/NewAdmin';
 import OrderTracking from './pages/OrderTracking';
 import NotificationsPage from './pages/Notifications';
 import MobilePreview from './pages/MobilePreview';
@@ -111,29 +113,34 @@ export default function App() {
         </div>
       } />
       <Route path="/mobile-preview" element={<MobilePreview />} />
+      <Route path="/admin-login" element={<AdminLogin />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
 
-      {/* Admin Routes */}
+      {/* NOUVEL ADMIN v2.0 - Sécurisé */}
+      <Route path="/admin2" element={<NewAdmin />} />
+
+      {/* Admin Routes Legacy */}
       <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/admin/products" element={<AdminProducts />} />
       <Route path="/admin/orders" element={<AdminOrders />} />
-      <Route path="/admin/qrcode" element={<AdminQRCode />} />
-      <Route path="/admin/accounting" element={<AdminAccounting />} />
-      <Route path="/admin/promotions" element={<AdminPromotions />} />
-      <Route path="/admin/settings" element={<AdminSettings />} />
-      <Route path="/admin/kitchen" element={<AdminKitchen />} />
-      <Route path="/admin/employees" element={<AdminEmployees />} />
-      <Route path="/admin/inventory" element={<AdminInventory />} />
-      <Route path="/admin/loyalty" element={<AdminLoyalty />} />
-      <Route path="/admin/delivery" element={<AdminDeliveryZones />} />
-      <Route path="/admin/clients" element={<AdminClients />} />
-      <Route path="/admin/cashier" element={<AdminCashier />} />
-      <Route path="/admin/manual-accounting" element={<AdminManualAccounting />} />
-      <Route path="/admin/marketing/qr" element={<AdminQRMarketing />} />
-      <Route path="/admin/marketing/flyers" element={<AdminFlyers />} />
-      <Route path="/admin/marketing/affiche" element={<AdminAffiche />} />
-      <Route path="/admin/marketing/menu" element={<AdminMenuPublic />} />
-      <Route path="/admin/marketing/tv" element={<AdminAfficheTV />} />
-      <Route path="/admin/whatsapp-orders" element={<AdminWhatsAppOrders />} />
+      <Route path="/admin/qrcode" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminQRCode /> : <Navigate to="/" />} />
+      <Route path="/admin/accounting" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminAccounting /> : <Navigate to="/" />} />
+      <Route path="/admin/promotions" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminPromotions /> : <Navigate to="/" />} />
+      <Route path="/admin/settings" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminSettings /> : <Navigate to="/" />} />
+      <Route path="/admin/kitchen" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminKitchen /> : <Navigate to="/" />} />
+      <Route path="/admin/employees" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminEmployees /> : <Navigate to="/" />} />
+      <Route path="/admin/inventory" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminInventory /> : <Navigate to="/" />} />
+      <Route path="/admin/loyalty" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminLoyalty /> : <Navigate to="/" />} />
+      <Route path="/admin/delivery" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminDeliveryZones /> : <Navigate to="/" />} />
+      <Route path="/admin/clients" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminClients /> : <Navigate to="/" />} />
+      <Route path="/admin/cashier" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminCashier /> : <Navigate to="/" />} />
+      <Route path="/admin/manual-accounting" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminManualAccounting /> : <Navigate to="/" />} />
+      <Route path="/admin/marketing/qr" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminQRMarketing /> : <Navigate to="/" />} />
+      <Route path="/admin/marketing/flyers" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminFlyers /> : <Navigate to="/" />} />
+      <Route path="/admin/marketing/affiche" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminAffiche /> : <Navigate to="/" />} />
+      <Route path="/admin/marketing/menu" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminMenuPublic /> : <Navigate to="/" />} />
+      <Route path="/admin/marketing/tv" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminAfficheTV /> : <Navigate to="/" />} />
+      <Route path="/admin/whatsapp-orders" element={localStorage.getItem('rchicken_admin') === 'intersidibe2@gmail.com' ? <AdminWhatsAppOrders /> : <Navigate to="/" />} />
       <Route path="/order-tracking" element={<OrderTracking />} />
       <Route path="/notifications" element={<NotificationsPage />} />
     </Routes>

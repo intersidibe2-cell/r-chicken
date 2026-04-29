@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { X, ShoppingBag, Heart, Share2, Star, Minus, Plus } from 'lucide-react';
+import { X, ShoppingBag, Heart, Share2, Star, Minus, Plus, Check } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useToast } from './Toast';
 
 export default function ProductModal({ product, onClose }) {
   const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || null);
+  const [selectedAddons, setSelectedAddons] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   const { addToCart } = useCart();
@@ -17,17 +18,38 @@ export default function ProductModal({ product, onClose }) {
     { name: '24 Pcs', price: Math.round(product.price * 3) },
   ];
 
-  const currentPrice = selectedSize ? selectedSize.price : product.price;
+  const addons = product.addons || [];
+  const hasAddons = addons.length > 0;
+  const hasSizes = sizes.length > 0;
+
+  let currentPrice = selectedSize ? selectedSize.price : product.price;
+  selectedAddons.forEach(addon => {
+    currentPrice += addon.price;
+  });
+
+  const handleAddonToggle = (addon) => {
+    if (selectedAddons.find(a => a.name === addon.name)) {
+      setSelectedAddons(selectedAddons.filter(a => a.name !== addon.name));
+    } else {
+      setSelectedAddons([...selectedAddons, addon]);
+    }
+  };
 
   const handleAddToCart = () => {
+    const selectedOptions = [];
+    if (selectedSize) selectedOptions.push(selectedSize.name);
+    selectedAddons.forEach(addon => selectedOptions.push(addon.name));
+    
     const itemToAdd = {
       ...product,
       selectedSize: selectedSize?.name || null,
+      selectedAddons: selectedAddons.map(a => a.name),
       price: currentPrice,
       quantity,
     };
     addToCart(itemToAdd);
-    addToast(`${product.name} (${selectedSize?.name || '1'}) ajouté au panier !`, 'success');
+    const optionsText = selectedOptions.length > 0 ? `(${selectedOptions.join(', ')})` : '';
+    addToast(`${product.name} ${optionsText} ajouté au panier !`, 'success');
     onClose();
   };
 
@@ -109,27 +131,61 @@ export default function ProductModal({ product, onClose }) {
           )}
 
           {/* Sélection de taille */}
-          <div className="border-2 border-[#E4002B] rounded-xl p-4 mb-6">
-            <h3 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
-              📦 Choisissez votre taille
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-              {sizes.map((size, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedSize(size)}
-                  className={`p-3 rounded-xl border-2 transition-all ${
-                    selectedSize?.name === size.name
-                      ? 'border-[#E4002B] bg-red-50'
-                      : 'border-gray-200 hover:border-[#E4002B]'
-                  }`}
-                >
-                  <p className="font-bold text-gray-900">{size.name}</p>
-                  <p className="text-[#E4002B] font-black">{size.price.toLocaleString('fr-FR')}F</p>
-                </button>
-              ))}
+          {hasSizes && (
+            <div className="border-2 border-[#E4002B] rounded-xl p-4 mb-6">
+              <h3 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                📦 Choisissez votre taille
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {sizes.map((size, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedSize(size)}
+                    className={`p-3 rounded-xl border-2 transition-all text-left ${
+                      selectedSize?.name === size.name
+                        ? 'border-[#E4002B] bg-red-50'
+                        : 'border-gray-200 hover:border-[#E4002B]'
+                    }`}
+                  >
+                    <p className="font-bold text-gray-900">{size.name}</p>
+                    <p className="text-sm text-gray-600">{size.description}</p>
+                    <p className="text-[#E4002B] font-black">{size.price.toLocaleString('fr-FR')}F</p>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Addons */}
+          {hasAddons && (
+            <div className="border-2 border-gray-200 rounded-xl p-4 mb-6">
+              <h3 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                ➕ Suppléments
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {addons.map((addon, index) => {
+                  const isSelected = selectedAddons.find(a => a.name === addon.name);
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => handleAddonToggle(addon)}
+                      className={`p-3 rounded-xl border-2 transition-all text-left flex items-center justify-between ${
+                        isSelected
+                          ? 'border-green-500 bg-green-50'
+                          : 'border-gray-200 hover:border-green-500'
+                      }`}
+                    >
+                      <div>
+                        <p className="font-bold text-gray-900">{addon.name}</p>
+                        <p className="text-green-600 font-black">+{addon.price.toLocaleString('fr-FR')}F</p>
+                      </div>
+                      {isSelected && <Check className="w-5 h-5 text-green-500" />}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Quantité */}
           <div className="flex items-center justify-between mb-6">
@@ -154,7 +210,10 @@ export default function ProductModal({ product, onClose }) {
           {/* Prix total et bouton */}
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500">Total</p>
+              <p className="text-sm text-gray-500">
+                Total 
+                {selectedAddons.length > 0 && ` (${selectedSize?.name || 'Base'} + ${selectedAddons.length} supp)`}
+              </p>
               <p className="text-2xl font-black text-[#E4002B]">
                 {(currentPrice * quantity).toLocaleString('fr-FR')}F
               </p>

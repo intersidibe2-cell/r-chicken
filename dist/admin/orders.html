@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commandes - Admin R-CHICKEN</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+<div class="max-w-4xl mx-auto p-4">
+<a href="index.html" class="text-blue-500 hover:underline mb-4 inline-block">← Retour</a>
+<h1 class="text-2xl font-black mb-4">Commandes</h1>
+<button onclick="loadOrders()" class="bg-blue-500 text-white px-4 py-2 rounded mb-4">Actualiser</button>
+<div id="orders" class="text-center text-gray-500">Chargement...</div>
+
+<script type="module">
+const supabaseUrl = 'https://kwotomcxflbykhghxvfy.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3b3RvbWN4ZmxieWtoZ2h4dmZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0NzY1NTcsImV4cCI6MjA5MDA1MjU1N30.gwgAcEn3kDSmv8qN8qDTflq2TaNPF4uIiCxbuj9u1Sc';
+
+async function updateStatus(id, status) {
+  await fetch(supabaseUrl + '/rest/v1/commandes?id=eq.' + id, {
+    method: 'PATCH',
+    headers: { 
+      'apikey': supabaseKey, 
+      'Authorization': 'Bearer ' + supabaseKey,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify({ status, updated_at: new Date().toISOString() })
+  });
+  loadOrders();
+}
+
+async function loadOrders() {
+  try {
+    const res = await fetch(supabaseUrl + '/rest/v1/commandes?select=*&order=created_at.desc', {
+      headers: { 'apikey': supabaseKey, 'Authorization': 'Bearer ' + supabaseKey }
+    });
+    const data = await res.json();
+    
+    if (Array.isArray(data)) {
+      if (data.length === 0) {
+        document.getElementById('orders').innerHTML = '<p class="text-center py-8 text-gray-500">Aucune commande</p>';
+      } else {
+        document.getElementById('orders').innerHTML = data.map(order => `
+          <div class="bg-white p-4 rounded shadow mb-3">
+            <div class="flex justify-between items-start">
+              <div>
+                <p class="font-bold">${order.id}</p>
+                <p class="text-sm text-gray-600">${order.client_name}</p>
+                <p class="text-sm text-gray-600">${order.client_phone}</p>
+                <p class="text-sm text-gray-600">${order.client_address || 'À emporter'}</p>
+              </div>
+              <span class="px-2 py-1 rounded text-sm ${order.status === 'livré' ? 'bg-green-100 text-green-700' : order.status === 'prêt' ? 'bg-blue-100 text-blue-700' : order.status === 'en cours' ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100'}">
+                ${order.status}
+              </span>
+            </div>
+            <p class="font-bold mt-2">${(order.total || 0).toLocaleString()}F</p>
+            <div class="flex gap-2 mt-3">
+              <button onclick="updateStatus('${order.id}', 'en cours')" class="bg-blue-500 text-white px-3 py-1 rounded text-sm">En cours</button>
+              <button onclick="updateStatus('${order.id}', 'prêt')" class="bg-green-500 text-white px-3 py-1 rounded text-sm">Prêt</button>
+              <button onclick="updateStatus('${order.id}', 'livré')" class="bg-gray-500 text-white px-3 py-1 rounded text-sm">Livré</button>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+  } catch (e) {
+    document.getElementById('orders').innerHTML = '<p class="text-red-500">Erreur: ' + e.message + '</p>';
+  }
+}
+
+loadOrders();
+</script>
+</div>
+</body>
+</html>

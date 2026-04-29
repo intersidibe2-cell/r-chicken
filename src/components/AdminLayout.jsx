@@ -21,7 +21,9 @@ export default function AdminLayout({ children }) {
   ];
 
   const handleLogout = () => {
-    navigate('/');
+    localStorage.removeItem('rchicken_admin');
+    localStorage.removeItem('rchicken_admin_time');
+    navigate('/admin/login');
   };
 
   return (

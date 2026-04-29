@@ -73,7 +73,7 @@ export default function Cashier() {
       items: [...cart],
       total: totalAmount,
       paymentMethod,
-      customerName: clientName || 'Client sur place',
+      customerName: customerName || 'Client sur place',
       customerPhone,
       date: new Date().toISOString(),
       status: 'livré',

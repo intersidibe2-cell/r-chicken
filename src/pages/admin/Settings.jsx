@@ -1,40 +1,52 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AdminLayout from '../../components/AdminLayout';
 import { Save, Clock, MapPin, Phone, Mail, Bell } from 'lucide-react';
 
+const SETTINGS_KEY = 'rchicken_settings';
+
+const defaultSettings = {
+  name: 'R-CHICKEN',
+  tagline: 'Le Poulet Croustillant Malien',
+  phone: '+223 83 80 61 29',
+  phone2: '+223 74 90 87 09',
+  email: 'contact@r-chicken.com',
+  address: 'Baco-djicoroni Golf, HXGV+5X7, Bamako, Mali',
+  isOpen: true,
+  minOrder: 2000,
+  deliveryFee: 1500,
+  freeDeliveryFrom: 20000,
+  deliveryTime: '30-45',
+  tiktok: '@rouski_chicken',
+  schedules: {
+    monday: { open: '11:00', close: '23:00', active: true },
+    tuesday: { open: '11:00', close: '23:00', active: true },
+    wednesday: { open: '11:00', close: '23:00', active: true },
+    thursday: { open: '11:00', close: '23:00', active: true },
+    friday: { open: '11:00', close: '23:00', active: true },
+    saturday: { open: '11:00', close: '00:00', active: true },
+    sunday: { open: '12:00', close: '22:00', active: true },
+  },
+  notifications: {
+    newOrder: true,
+    orderStatus: true,
+    lowStock: true,
+    dailyReport: false,
+  },
+};
+
 export default function AdminSettings() {
-  const [settings, setSettings] = useState({
-    name: 'R-CHICKEN',
-    tagline: 'Le Poulet Croustillant Malien',
-    phone: '+223 83 80 61 29',
-    phone2: '+223 74 90 87 09',
-    email: 'contact@r-chicken.com',
-    address: 'Baco-djicoroni Golf, HXGV+5X7, Bamako, Mali',
-    isOpen: false,
-    minOrder: 2000,
-    deliveryFee: 1500,
-    freeDeliveryFrom: 20000,
-    deliveryTime: '30-45',
-    tiktok: '@rouski_chicken',
-    schedules: {
-      monday: { open: '11:00', close: '23:00', active: true },
-      tuesday: { open: '11:00', close: '23:00', active: true },
-      wednesday: { open: '11:00', close: '23:00', active: true },
-      thursday: { open: '11:00', close: '23:00', active: true },
-      friday: { open: '11:00', close: '23:00', active: true },
-      saturday: { open: '11:00', close: '00:00', active: true },
-      sunday: { open: '12:00', close: '22:00', active: true },
-    },
-    notifications: {
-      newOrder: true,
-      orderStatus: true,
-      lowStock: true,
-      dailyReport: false,
-    },
+  const [settings, setSettings] = useState(() => {
+    try {
+      const saved = localStorage.getItem(SETTINGS_KEY);
+      return saved ? { ...defaultSettings, ...JSON.parse(saved) } : defaultSettings;
+    } catch {
+      return defaultSettings;
+    }
   });
   const [saved, setSaved] = useState(false);
 
   const handleSave = () => {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
   };

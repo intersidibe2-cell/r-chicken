@@ -1,10 +1,23 @@
 import { Link } from 'react-router-dom';
 import { Gift, Tag, Users, Trophy, Copy, Check } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Promotions() {
   const [copied, setCopied] = useState(false);
-  const referralCode = 'RCHICKEN-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+  const [referralCode, setReferralCode] = useState('');
+
+  useEffect(() => {
+    const saved = localStorage.getItem('rchicken_user');
+    if (saved) {
+      const user = JSON.parse(saved);
+      const phone = user.phone || '';
+      if (phone) {
+        setReferralCode('RC-' + phone.slice(-6));
+        return;
+      }
+    }
+    setReferralCode('RCHICKEN-' + Math.random().toString(36).substring(2, 8).toUpperCase());
+  }, []);
 
   const copyReferralCode = () => {
     navigator.clipboard.writeText(referralCode);
@@ -36,10 +49,10 @@ export default function Promotions() {
               <h3 className="font-black text-xl">Code Promo Bienvenue</h3>
             </div>
             <p className="text-white/80 mb-4">
-              -10% sur votre première commande avec le code BIENVENUE10
+              -500F sur votre première commande avec le code BIENVENUE
             </p>
             <div className="bg-white/20 rounded-lg p-3 text-center">
-              <p className="font-black text-2xl tracking-wider">BIENVENUE10</p>
+              <p className="font-black text-2xl tracking-wider">BIENVENUE</p>
             </div>
           </div>
 
@@ -95,7 +108,7 @@ export default function Promotions() {
               </div>
               <div className="bg-white/20 rounded-xl p-4 text-center">
                 <p className="text-3xl mb-1">🎁</p>
-                <p className="font-black text-xl">5000 pts</p>
+                <p className="font-black text-xl">2000 pts</p>
                 <p className="text-sm">= Commande gratuite</p>
               </div>
             </div>

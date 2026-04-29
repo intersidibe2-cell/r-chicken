@@ -14,8 +14,16 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    const subjectMap = {
+      commande: 'Question sur une commande',
+      information: "J'ai une question",
+      suggestion: 'Suggestion',
+      reclamation: 'Problème avec ma commande',
+      autre: 'Autre',
+    };
+    const sujet = subjectMap[formData.subject] || formData.subject || 'Message';
+    const text = `Bonjour R-CHICKEN !\n\n*${sujet}*\n\nNom : ${formData.name}\nTéléphone : ${formData.phone}\n\n${formData.message}`;
+    window.open(`https://wa.me/22383806129?text=${encodeURIComponent(text)}`, '_blank');
     setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
   };
 
@@ -111,8 +119,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="font-bold text-gray-900">Horaires d'ouverture</p>
-                    <p className="text-gray-600 text-sm">Lundi - Samedi: 11h - 23h</p>
-                    <p className="text-gray-600 text-sm">Dimanche: 12h - 22h</p>
+                    <p className="text-gray-600 text-sm">Ouvert 24h/24 - 7j/7</p>
                   </div>
                 </div>
               </div>
@@ -150,12 +157,7 @@ export default function Contact() {
           <div className="bg-white rounded-2xl shadow-lg p-6">
             <h2 className="font-bold text-lg text-gray-900 mb-4">Envoyez-nous un message</h2>
             
-            {submitted && (
-              <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-4 flex items-center gap-3">
-                <Check className="w-5 h-5 text-green-500" />
-                <p className="text-green-700 font-medium">Message envoyé avec succès !</p>
-              </div>
-            )}
+
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
@@ -224,10 +226,10 @@ export default function Contact() {
 
               <button
                 type="submit"
-                className="w-full kfc-button text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2"
+                className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-colors"
               >
-                <Send className="w-5 h-5" />
-                Envoyer le message
+                <MessageCircle className="w-5 h-5" />
+                Envoyer par WhatsApp
               </button>
             </form>
           </div>

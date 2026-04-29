@@ -1,35 +1,43 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { CheckCircle, Clock, ChefHat, Truck, Package, Phone, MapPin, Copy, MessageCircle, ArrowLeft, RefreshCw, Bell } from 'lucide-react';
-import { useNotifications } from '../context/NotificationContext';
+import { useToast } from '../components/Toast';
+import { supabase } from '../supabase';
 
 export default function OrderTracking() {
   const [searchParams] = useSearchParams();
   const orderId = searchParams.get('id');
   const [order, setOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
-  const [lastStatus, setLastStatus] = useState(null);
-  const { checkOrderUpdates } = useNotifications();
+  const { addToast } = useToast();
 
+  // Charger la commande depuis Supabase
   useEffect(() => {
-    if (orderId) {
-      // Search in both order sources
-      const onlineOrders = JSON.parse(localStorage.getItem('rchicken_orders') || '[]');
-      const whatsappOrders = JSON.parse(localStorage.getItem('rchicken_whatsapp_orders') || '[]');
-      
-      const foundOrder = onlineOrders.find(o => o.id === orderId) || 
-                         whatsappOrders.find(o => o.id === orderId);
-      
-      if (foundOrder) {
-        // Check if status changed
-        if (lastStatus && lastStatus !== foundOrder.status) {
-          checkOrderUpdates(orderId, foundOrder.status);
-        }
-        setLastStatus(foundOrder.status);
-        setOrder(foundOrder);
-      }
+    if (!orderId) {
+      setLoading(false);
+      return;
     }
-  }, [orderId, checkOrderUpdates]);
+
+    const fetchOrder = async () => {
+      const { data, error } = await supabase
+        .from('commandes')
+        .select('*')
+        .eq('id', orderId)
+        .single();
+
+      if (error) {
+        console.error('Erreur chargement commande:', error);
+      } else {
+        setOrder(data);
+      }
+      setLoading(false);
+    };
+
+    fetchOrder();
+
+    return () => {};
+  }, [orderId]);
 
   const copyOrderId = () => {
     navigator.clipboard.writeText(orderId);
@@ -130,16 +138,16 @@ export default function OrderTracking() {
     window.open(`https://wa.me/22383806129?text=${message}`, '_blank');
   };
 
-  // Refresh order status
-  const refreshOrder = () => {
-    const onlineOrders = JSON.parse(localStorage.getItem('rchicken_orders') || '[]');
-    const whatsappOrders = JSON.parse(localStorage.getItem('rchicken_whatsapp_orders') || '[]');
-    
-    const foundOrder = onlineOrders.find(o => o.id === orderId) || 
-                       whatsappOrders.find(o => o.id === orderId);
-    
-    if (foundOrder) {
-      setOrder(foundOrder);
+  // Refresh order from Supabase
+  const refreshOrder = async () => {
+    if (!orderId) return;
+    const { data, error } = await supabase
+      .from('commandes')
+      .select('*')
+      .eq('id', orderId)
+      .single();
+    if (!error && data) {
+      setOrder(data);
     }
   };
 
@@ -308,7 +316,7 @@ export default function OrderTracking() {
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">Date</span>
               <span className="font-bold">
-                {new Date(order.date).toLocaleDateString('fr-FR')} à {new Date(order.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                {new Date(order.created_at || order.date).toLocaleDateString('fr-FR')} à {new Date(order.created_at || order.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
               </span>
             </div>
             <div className="flex justify-between text-sm">
@@ -325,13 +333,13 @@ export default function OrderTracking() {
               {(order.items || []).map((item, i) => (
                 <div key={i} className="flex justify-between text-sm">
                   <span>{item.quantity}x {item.name}</span>
-                  <span className="font-bold">{(item.subtotal || item.price * item.quantity).toLocaleString('fr-FR')}F</span>
+                  <span className="font-bold">{(item.subtotal || (item.price || 0) * (item.quantity || 1)).toLocaleString('fr-FR')}F</span>
                 </div>
               ))}
             </div>
             <div className="border-t mt-3 pt-3 flex justify-between">
               <span className="font-bold">Total</span>
-              <span className="font-black text-xl text-red-600">{order.total?.toLocaleString('fr-FR')}F</span>
+              <span className="font-black text-xl text-red-600">{(order.total || 0).toLocaleString('fr-FR')}F</span>
             </div>
           </div>
         </div>
@@ -346,7 +354,7 @@ export default function OrderTracking() {
               </div>
               <div>
                 <p className="text-sm text-gray-500">Client</p>
-                <p className="font-bold">{order.clientName || order.client?.name}</p>
+                <p className="font-bold">{order.client_name || order.clientName}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -355,17 +363,17 @@ export default function OrderTracking() {
               </div>
               <div>
                 <p className="text-sm text-gray-500">Téléphone</p>
-                <p className="font-bold">{order.clientPhone || order.client?.phone}</p>
+                <p className="font-bold">{order.client_phone || order.clientPhone}</p>
               </div>
             </div>
-            {(order.clientAddress || order.client?.address) && (
+            {(order.client_address || order.clientAddress) && order.client_address !== 'À emporter' && (
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
                   <MapPin className="w-5 h-5 text-gray-600" />
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Adresse</p>
-                  <p className="font-bold">{order.clientAddress || order.client?.address}</p>
+                  <p className="font-bold">{order.client_address || order.clientAddress}</p>
                 </div>
               </div>
             )}

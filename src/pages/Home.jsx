@@ -8,7 +8,7 @@ import { useCart } from '../context/CartContext';
 import { useToast } from '../components/Toast';
 import { menuData } from '../data/menu';
 
-const MENU_VERSION = '5.0';
+const MENU_VERSION = '6.0';
 
 export default function Home() {
   const { addToCart } = useCart();
@@ -190,16 +190,15 @@ export default function Home() {
                       <div className="mt-auto">
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-sm md:text-lg font-black text-[#E4002B]">
-                            {item.fromPrice ? 'À partir de ' : ''}{item.price.toLocaleString('fr-FR')}F
+                            {item.fromPrice ? 'À partir de ' : ''}{(item.price || 0).toLocaleString('fr-FR')}F
                           </span>
                         </div>
-                        <button
-                          onClick={() => { addToCart(item); addToast(`${item.name} ajouté au panier !`, 'success'); }}
-                          className="inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-md font-bold transition-colors bg-primary shadow hover:bg-primary/90 py-2 md:py-3 w-full kfc-button text-white text-sm md:text-sm h-10 md:h-9 px-2"
-                        >
-                          <ShoppingBag className="w-4 h-4" />
-                          Ajouter
-                        </button>
+                        <Link to="/menu">
+                          <button className="inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-md font-bold transition-colors bg-primary shadow hover:bg-primary/90 py-2 md:py-3 w-full kfc-button text-white text-sm md:text-sm h-10 md:h-9 px-2">
+                            <ShoppingBag className="w-4 h-4" />
+                            Voir
+                          </button>
+                        </Link>
                       </div>
                     </div>
                   </div>

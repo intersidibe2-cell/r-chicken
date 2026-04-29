@@ -116,23 +116,13 @@ export const calculateDeliveryTime = (address = null, itemCount = 1) => {
 
 // Get delivery fee based on zone
 export const getDeliveryFee = (address = null, orderTotal = 0) => {
-  // Free delivery over 20,000 FCFA
-  if (orderTotal >= 20000) {
-    return { fee: 0, free: true, reason: 'Commande ≥ 20 000F' };
-  }
-  
-  const zone = detectZone(address);
-  let fee = 1000; // Base fee
-  
-  // Adjust fee based on zone
-  if (zone.baseTime <= 20) fee = 500;      // Close zones
-  else if (zone.baseTime <= 30) fee = 1000; // Medium zones
-  else fee = 1500;                          // Far zones
-  
-  return {
-    fee,
-    free: false,
-    zone: zone.name
+  // Pour le moment: livraison à discuter
+  // Le livreur confirmera le montant exact
+  return { 
+    fee: null, 
+    free: false, 
+    reason: 'À discuter',
+    message: 'Frais de livraison selon votre zone (500-2000 F)'
   };
 };
 
