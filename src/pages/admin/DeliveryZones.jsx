@@ -56,11 +56,11 @@ export default function DeliveryZones() {
             <p className="text-sm text-gray-500">Actives</p>
           </div>
           <div className="bg-white rounded-xl p-4 shadow-sm border">
-            <p className="text-2xl font-black text-blue-600">{Math.min(...zones.filter(z => z.active).map(z => z.price)).toLocaleString()}F</p>
+            <p className="text-2xl font-black text-blue-600">{zones.filter(z => z.active).length > 0 ? Math.min(...zones.filter(z => z.active).map(z => z.price)).toLocaleString() : 0}F</p>
             <p className="text-sm text-gray-500">Livraison min</p>
           </div>
           <div className="bg-white rounded-xl p-4 shadow-sm border">
-            <p className="text-2xl font-black text-purple-600">{Math.max(...zones.filter(z => z.active).map(z => z.price)).toLocaleString()}F</p>
+            <p className="text-2xl font-black text-purple-600">{zones.filter(z => z.active).length > 0 ? Math.max(...zones.filter(z => z.active).map(z => z.price)).toLocaleString() : 0}F</p>
             <p className="text-sm text-gray-500">Livraison max</p>
           </div>
         </div>

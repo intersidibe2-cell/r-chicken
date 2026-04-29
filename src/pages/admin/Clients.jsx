@@ -46,7 +46,7 @@ export default function Clients() {
             <p className="text-sm text-gray-500">Chiffre clients</p>
           </div>
           <div className="bg-white rounded-xl p-4 shadow-sm border">
-            <p className="text-2xl font-black text-purple-600">{Math.round(avgOrderValue).toLocaleString()}F</p>
+            <p className="text-2xl font-black text-purple-600">{Math.round(avgOrderValue || 0).toLocaleString()}F</p>
             <p className="text-sm text-gray-500">Panier moyen</p>
           </div>
           <div className="bg-white rounded-xl p-4 shadow-sm border">
@@ -111,7 +111,7 @@ export default function Clients() {
                       </span>
                     </td>
                     <td className="px-4 py-3 text-right font-bold text-[#E4002B]">
-                      {client.totalSpent.toLocaleString()}F
+                      {(client.totalSpent || 0).toLocaleString()}F
                     </td>
                     <td className="px-4 py-3 text-center">
                       <button 
@@ -161,7 +161,7 @@ export default function Clients() {
 
               <div className="bg-[#E4002B] text-white rounded-xl p-4 text-center mb-4">
                 <p className="text-sm opacity-80">Total dépensé</p>
-                <p className="text-3xl font-black">{selectedClient.totalSpent.toLocaleString()}F</p>
+                <p className="text-3xl font-black">{(selectedClient.totalSpent || 0).toLocaleString()}F</p>
               </div>
 
               <button
