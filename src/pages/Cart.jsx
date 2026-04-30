@@ -387,18 +387,12 @@ export default function Cart() {
                       : 'border-input hover:border-primary'
                   }`}
                 >
-                  <div className="text-center">
-                    <div className="text-4xl mb-2">🏪</div>
-                    <h3 className="font-black text-xl text-primary">À EMPORTER</h3>
-                    <div className="flex items-center justify-center gap-2 mt-3">
-                      <span className="bg-green-500 text-white px-4 py-2 rounded-full font-bold text-sm flex items-center gap-1">
-                        <Timer className="w-4 h-4" />
-                        10-15 min
-                      </span>
-                    </div>
-                    <p className="text-xs text-green-600 mt-2 font-medium">
-                      ⚡ Prêt en 10-15 min - Venez récupérer !
-                    </p>
+                    <div className="text-center">
+                      <div className="text-4xl mb-2">🏪</div>
+                      <h3 className="font-black text-xl text-primary">À EMPORTER</h3>
+                      <p className="text-xs text-green-600 mt-2 font-medium">
+                        ⚡ Prêt en 10-15 min - Venez récupérer !
+                      </p>
                     {pickupDiscount > 0 && (
                       <span className="inline-block mt-2 bg-green-500 text-white px-3 py-1 rounded-full font-bold text-sm">
                         🎉 -500F
