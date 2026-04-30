@@ -423,14 +423,8 @@ export default function Cart() {
                   <div className="text-center">
                     <div className="text-4xl mb-2">🛵</div>
                     <h3 className="font-black text-xl text-primary">LIVRAISON</h3>
-                    <div className="flex items-center justify-center gap-2 mt-3 flex-wrap">
-                      <span className="bg-blue-500 text-white px-4 py-2 rounded-full font-bold text-sm flex items-center gap-1">
-                        <Timer className="w-4 h-4" />
-                        {deliveryEstimate.formatted}
-                      </span>
-                      <span className="bg-amber-500 text-white px-3 py-2 rounded-full font-bold text-sm">
-                        À discuter
-                      </span>
+                    <div className="flex items-center justify-center gap-2 mt-3" aria-label="Delivery time removed">
+                      {/* Temps de livraison retiré selon demande du client */}
                     </div>
                   </div>
                   {deliveryMethod === 'delivery' && (

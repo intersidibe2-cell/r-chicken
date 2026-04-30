@@ -107,10 +107,6 @@ export default function DeliveryZones() {
                   <p className="text-2xl font-black text-[#E4002B]">{(zone.price ?? 0).toLocaleString()}F</p>
                   <p className="text-xs text-gray-500">Frais de livraison</p>
                 </div>
-                <div className="text-right">
-                  <p className="font-bold text-gray-700">{zone.time}</p>
-                  <p className="text-xs text-gray-500">Temps estimé</p>
-                </div>
               </div>
 
               <div className="flex gap-2">
